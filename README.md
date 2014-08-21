@@ -1,17 +1,17 @@
-meteor-dropbox-oauth
+meteor-uber-oauth
 ===================
 
-A Oauth2 wrapper for dropbox
+A Oauth2 wrapper for Uber
 
 ## Installation
 
 * Install accounts-ui pacakge: `mrt accounts-ui`
-* `mrt add dropbox-oauth`
+* `mrt add uber-oauth`
 
 ## Usage
 
-Creates a new function `Meteor.loginWithDropbox(options, callback)`
+Creates a new function `Meteor.loginWithUber(options, callback)`
 
-This is the backbone of `accounts-dropbox`
+This is the backbone of `accounts-uber`
 
 

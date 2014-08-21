@@ -1,20 +1,20 @@
-DropboxOauth = {};
+UberOauth = {};
 
-OAuth.registerService('dropbox', 2, null, function(query) {
+OAuth.registerService('uber', 2, null, function(query) {
 
   var response = getTokenResponse(query);
   var accessToken = response.accessToken;
   var identity = getIdentity(accessToken);
 
   var serviceData = {
-    id: identity.uid,
+    id: identity.first_name,
     accessToken: accessToken,
     expiresAt: (+new Date()) + (1000 * response.expiresIn)
   };
 
   // include all fields from dropbox
   // https://www.dropbox.com/developers/core/docs#account-info
-  var fields = _.pick(identity, ['display_name', 'country']);
+  var fields = _.pick(identity, ['first_name', 'last_name']);
 
   return {
     serviceData: serviceData,
@@ -38,7 +38,7 @@ var isJSON = function (str) {
 // - accessToken
 // - expiresIn: lifetime of token in seconds
 var getTokenResponse = function (query) {
-  var config = ServiceConfiguration.configurations.findOne({service: 'dropbox'});
+  var config = ServiceConfiguration.configurations.findOne({service: 'uber'});
   if (!config)
     throw new ServiceConfiguration.ConfigError("Service not configured");
 
@@ -46,12 +46,12 @@ var getTokenResponse = function (query) {
   try {
     // Request an access token
     responseContent = Meteor.http.post(
-      "https://api.dropbox.com/1/oauth2/token", {
+      "https://login.uber.com/oauth/token", {
         auth: [config.clientId, config.secret].join(':'),
         params: {
           grant_type: 'authorization_code',
           code: query.code,
-          redirect_uri: Meteor.absoluteUrl("_oauth/dropbox?close")
+          redirect_uri: Meteor.absoluteUrl("_oauth/uber?close")
         }
       }).content;
   } catch (err) {
@@ -81,7 +81,7 @@ var getTokenResponse = function (query) {
 
 var getIdentity = function (accessToken) {
   try {
-    return Meteor.http.get("https://api.dropbox.com/1/account/info", {
+    return Meteor.http.get("https://api.uber.com/v1/me", {
         headers: { Authorization: 'Bearer ' + accessToken }
     }).data;
   } catch (err) {
@@ -89,6 +89,6 @@ var getIdentity = function (accessToken) {
   }
 };
 
-DropboxOauth.retrieveCredential = function(credentialToken, credentialSecret) {
+UberOauth.retrieveCredential = function(credentialToken, credentialSecret) {
   return OAuth.retrieveCredential(credentialToken, credentialSecret);
 };

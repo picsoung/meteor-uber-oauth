@@ -1,5 +1,5 @@
 Package.describe({
-  summary: "Login service for dropbox accounts"
+  summary: "Login service for uber accounts"
 });
 
 Package.on_use(function(api) {
@@ -9,10 +9,10 @@ Package.on_use(function(api) {
   api.use('templating', 'client');
   api.use('service-configuration', ['client', 'server']);
 
-  api.export('DropboxOauth');
+  api.export('UberOauth');
 
-  api.add_files( ['dropbox_configure.html', 'dropbox_configure.js'], 'client');
+  api.add_files( ['uber_configure.html', 'uber_configure.js'], 'client');
 
-  api.add_files('dropbox_server.js', 'server');
-  api.add_files('dropbox_client.js', 'client');
+  api.add_files('uber_server.js', 'server');
+  api.add_files('uber_client.js', 'client');
 });
