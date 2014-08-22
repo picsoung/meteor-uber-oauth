@@ -4,7 +4,7 @@ Template.configureLoginServiceDialogForUber.siteUrl = function () {
 
 Template.configureLoginServiceDialogForUber.fields = function () {
   return [
-    {property: 'appId',  label: 'App ID'},
+    {property: 'clientId',  label: 'Client ID'},
     {property: 'secret', label: 'Secret'}
   ];
 };
